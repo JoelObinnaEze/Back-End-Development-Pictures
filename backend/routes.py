@@ -44,10 +44,10 @@ def get_pictures():
 
 @app.route("/picture/<int:id>", methods=["GET"])
 def get_picture_by_id(id):
-    if 0 <= id < len(data):
-        return jsonify(data[id])
-    else:
-        return jsonify({"error": "Picture not found"}), 404
+    for picture in data:
+        if picture["id"] == id:
+            return picture
+    return {"message": "picture not found"}, 404
 
 
 ######################################################################
@@ -62,6 +62,7 @@ def create_picture():
             return jsonify({"Message": f"picture with id {id} already present"}), 302
 
     data.append(picture)
+    return picture, 201
 
 ######################################################################
 # UPDATE A PICTURE
